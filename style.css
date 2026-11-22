@@ -1,0 +1,227 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Quicksand", Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #ffd6ec 0%, #e8d4ff 50%, #cfe8ff 100%);
+  color: #6b3a6b;
+}
+
+/* floating butterfly cursor turned off, normal cursor stays */
+#cursor {
+  display: none;
+}
+
+/* background layer */
+#sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  left: -300px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 100px;
+  filter: blur(4px);
+  animation: drift linear infinite;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 50%;
+  height: 120%;
+  top: -55%;
+  left: 15%;
+}
+
+.cloud::after {
+  width: 40%;
+  height: 100%;
+  top: -35%;
+  right: 12%;
+}
+
+@keyframes drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(100vw + 600px)); }
+}
+
+.butterfly {
+  position: absolute;
+  left: -80px;
+  animation: fly linear infinite;
+}
+
+.butterfly span {
+  display: block;
+  animation: wobble 3s ease-in-out infinite alternate;
+  filter: drop-shadow(0 2px 4px rgba(255, 105, 180, 0.4));
+}
+
+@keyframes fly {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(100vw + 160px)); }
+}
+
+@keyframes wobble {
+  0%   { transform: translateY(0) rotate(-12deg); }
+  50%  { transform: translateY(-50px) rotate(10deg); }
+  100% { transform: translateY(30px) rotate(-8deg); }
+}
+
+/* sparkle burst on click */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  animation: burst 0.9s ease-out forwards;
+}
+
+@keyframes burst {
+  from { transform: translate(-50%, -50%) scale(0.6); opacity: 1; }
+  to { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2); opacity: 0; }
+}
+
+/* quiz card */
+.quiz-box {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 40px rgba(255, 130, 190, 0.35);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 18px;
+  font-family: "Pacifico", cursive;
+  font-weight: normal;
+  font-size: 30px;
+  color: #ff5fa8;
+  text-shadow: 2px 2px 0 #fff;
+}
+
+#progress {
+  font-weight: 700;
+  color: #b07ad8;
+  margin-bottom: 4px;
+}
+
+#timer {
+  font-weight: 700;
+  color: #ff5fa8;
+  margin-bottom: 12px;
+}
+
+#timer.urgent {
+  color: #e0245e;
+  animation: pulse 0.6s infinite alternate;
+}
+
+@keyframes pulse {
+  to { transform: scale(1.08); }
+}
+
+#question {
+  margin-bottom: 18px;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  padding: 13px 16px;
+  margin-bottom: 10px;
+  border: 2px solid #ffc2e0;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #6b3a6b;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.option:hover:not(:disabled) {
+  border-color: #ff5fa8;
+  background: #fff0f8;
+  transform: scale(1.02);
+}
+
+.option.correct {
+  background: #c8f7dc;
+  border-color: #5fcf94;
+}
+
+.option.wrong {
+  background: #ffc2d1;
+  border-color: #ff6b8f;
+}
+
+button#next-btn,
+button#restart-btn {
+  width: 100%;
+  padding: 13px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff8fc7, #c9a0ff);
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(255, 105, 180, 0.4);
+  transition: transform 0.15s;
+}
+
+button#next-btn:hover:not(:disabled),
+button#restart-btn:hover {
+  transform: scale(1.03);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+#result {
+  text-align: center;
+}
+
+#score {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 16px 0;
+}
+
+.hidden {
+  display: none;
+}
